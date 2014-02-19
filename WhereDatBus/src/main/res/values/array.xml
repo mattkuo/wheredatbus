@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawer_items">
+        <item>Search</item>
+        <item>Favourites</item>
+        <item>Nearby</item>
+        <item>Bus Routes</item>
+        <item>Settings</item>
+        <item>About</item>
+    </string-array>
+</resources>
