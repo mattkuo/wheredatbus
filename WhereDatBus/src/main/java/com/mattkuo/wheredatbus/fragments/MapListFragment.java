@@ -15,9 +15,12 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 import com.mattkuo.wheredatbus.R;
+import com.mattkuo.wheredatbus.adapters.BusListAdapter;
 import com.mattkuo.wheredatbus.data.TranslinkService;
 import com.mattkuo.wheredatbus.model.Bus;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit.Callback;
@@ -47,17 +50,13 @@ public class MapListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         super.onCreateView(inflater, parent, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_map_list, parent, false);
-
+        mListView = (ListView) v.findViewById(R.id.bus_list);
         try {
             MapsInitializer.initialize(getActivity());
         } catch (GooglePlayServicesNotAvailableException e) {
             // What to do if play services not available
         }
 
-        mListView = (ListView) v.findViewById(R.id.bus_list);
-        final ArrayAdapter<Bus> busAdapter = new ArrayAdapter<>(getActivity()
-                .getApplicationContext(), R.layout.adapter_route_list_item);
-        mListView.setAdapter(busAdapter);
 
         mMapView = (MapView) v.findViewById(R.id.map_container);
         mMapView.onCreate(mBundle);
@@ -67,7 +66,13 @@ public class MapListFragment extends Fragment {
                 .translink), new Callback<List<Bus>>() {
             @Override
             public void success(List<Bus> buses, Response response) {
-                busAdapter.addAll(buses);
+
+                ArrayList<Bus> busList = new ArrayList<Bus>();
+                busList.addAll(buses);
+
+                ArrayAdapter busAdapter = new BusListAdapter(getActivity().getApplicationContext
+                        (), busList);
+                mListView.setAdapter(busAdapter);
             }
 
             @Override

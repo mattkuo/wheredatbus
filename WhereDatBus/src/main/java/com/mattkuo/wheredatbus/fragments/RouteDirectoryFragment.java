@@ -44,7 +44,7 @@ public class RouteDirectoryFragment extends ListFragment {
 
             List<Route> values = mDataSource.getAllRoutes();
             ArrayAdapter<Route> routesAdapter = new ArrayAdapter<Route>(getActivity()
-                    .getApplicationContext(), R.layout.adapter_route_list_item, values);
+                    .getApplicationContext(), R.layout.adapter_route_list_row, values);
             setListAdapter(routesAdapter);
         }
     }

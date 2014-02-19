@@ -1,46 +1,53 @@
 package com.mattkuo.wheredatbus.adapters;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.model.Bus;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class BusListAdapter extends BaseAdapter {
+public class BusListAdapter extends ArrayAdapter<Bus> {
+
     private Context mContext;
-    private List<Bus> mBusList = new ArrayList<Bus>();
 
-    public BusListAdapter(Context context) {
-        super();
+    public BusListAdapter(Context context, ArrayList<Bus> buses) {
+        super(context, 0, buses);
         mContext = context;
     }
 
-    public void setBusList(List<Bus> buses) {
-        mBusList = buses;
-        notifyDataSetChanged();
-    }
-
     @Override
-    public int getCount() {
-        return mBusList.size();
-    }
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
+                    .LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(R.layout.adapter_bus_list_row, null);
+        }
 
-    @Override
-    public Object getItem(int i) {
-        return mBusList.get(i);
-    }
+        // Configure the view for this Bus
+        Bus bus = getItem(position);
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
+        TextView routeNoTextView = (TextView) convertView.findViewById(R.id
+                .route_list_item_route_no);
+        routeNoTextView.setText(bus.getRouteNumber());
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+        TextView directionTextView = (TextView) convertView.findViewById(R.id
+                .route_list_item_direction);
+        directionTextView.setText(bus.getDirection());
+
+        TextView destinationTextView = (TextView) convertView.findViewById(R.id
+                .route_list_item_destination);
+        destinationTextView.setText(bus.getDestination());
+
+        TextView timeTextView = (TextView) convertView.findViewById(R.id
+                .route_list_item_recorded_time);
+        timeTextView.setText("Last Update: " + bus.getRecordedTime());
+
+        return convertView;
     }
 }

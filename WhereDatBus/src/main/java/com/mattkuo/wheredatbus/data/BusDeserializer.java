@@ -19,12 +19,13 @@ public class BusDeserializer implements JsonDeserializer<Bus> {
         final String vehicleNo = jsonObject.get("VehicleNo").getAsString();
         final String routeNo = jsonObject.get("RouteNo").getAsString();
         final String direction = jsonObject.get("Direction").getAsString();
+        final String destination = jsonObject.get("Destination").getAsString();
         final String recordedTime = jsonObject.get("RecordedTime").getAsString();
         final double latitude = jsonObject.get("Latitude").getAsDouble();
         final double longitude = jsonObject.get("Longitude").getAsDouble();
 
         final LatLng latLng = new LatLng(latitude, longitude);
 
-        return new Bus(vehicleNo, routeNo, direction, latLng, recordedTime);
+        return new Bus(vehicleNo, routeNo, direction, destination, latLng, recordedTime);
     }
 }

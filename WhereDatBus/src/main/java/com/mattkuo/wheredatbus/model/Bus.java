@@ -6,14 +6,16 @@ public class Bus {
     private String mVehicleNo;
     private String mRouteNumber;
     private String mDirection;
+    private String mDestination;
     private LatLng mLatLng;
     private String mRecordedTime;
 
-    public Bus(String vehicleNo, String routeNumber, String direction, LatLng latLng,
+    public Bus(String vehicleNo, String routeNumber, String direction, String destination, LatLng latLng,
                String recordedTime) {
         mVehicleNo = vehicleNo;
         mRouteNumber = routeNumber;
         mDirection = direction;
+        mDestination = destination;
         mLatLng = latLng;
         mRecordedTime = recordedTime;
     }
@@ -37,6 +39,13 @@ public class Bus {
     }
     public void setDirection(String direction) {
         mDirection = direction;
+    }
+
+    public String getDestination() {
+        return mDestination;
+    }
+    public void setDestination(String destination) {
+        mDestination = destination;
     }
 
     public LatLng getLatLng() {
