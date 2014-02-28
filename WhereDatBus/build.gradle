@@ -28,6 +28,7 @@ dependencies {
     compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     compile 'com.android.support:appcompat-v7:19.0.1'
     compile 'com.android.support:support-v4:19.0.1'
+    compile 'com.squareup.wire:wire-runtime:+'
 
     compile 'com.squareup.retrofit:retrofit:1.4.1'
 }

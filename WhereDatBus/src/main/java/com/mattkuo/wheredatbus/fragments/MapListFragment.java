@@ -20,7 +20,6 @@ import com.mattkuo.wheredatbus.data.TranslinkService;
 import com.mattkuo.wheredatbus.model.Bus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit.Callback;
