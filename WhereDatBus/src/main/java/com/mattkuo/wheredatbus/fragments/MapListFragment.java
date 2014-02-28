@@ -27,7 +27,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MapListFragment extends Fragment {
-    static final String EXTRA_ROUTE_NAME = "com.mattkuo.wheredatbus.route_name";
+    static final public String EXTRA_ROUTE_NAME = "com.mattkuo.wheredatbus.route_name";
     static final LatLng VANCOUVER = new LatLng(49.250, -123.100);
 
     private GoogleMap mMap;
@@ -36,6 +36,14 @@ public class MapListFragment extends Fragment {
     private MapView mMapView;
     private ListView mListView;
 
+    public static MapListFragment newInstance(String shortRouteId) {
+        Bundle args = new Bundle();
+        args.putString(EXTRA_ROUTE_NAME, shortRouteId);
+
+        MapListFragment fragment = new MapListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,15 +131,6 @@ public class MapListFragment extends Fragment {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(VANCOUVER, 15));
         // mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
     }
-
-    //	public static MapListFragment newInstance(String shortRouteId){
-    //		Bundle args = new Bundle();
-    //		args.putString(EXTRA_ROUTE_NAME, shortRouteId);
-    //
-    //		MapListFragment fragment = new MapListFragment();
-    //		fragment.setArguments(args);
-    //		return fragment;
-    //	}
 
 
 }

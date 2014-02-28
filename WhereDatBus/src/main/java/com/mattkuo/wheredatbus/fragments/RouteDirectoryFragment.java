@@ -1,13 +1,17 @@
 package com.mattkuo.wheredatbus.fragments;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.mattkuo.wheredatbus.R;
+import com.mattkuo.wheredatbus.activities.MapListActivity;
 import com.mattkuo.wheredatbus.adapters.RouteListAdapter;
 import com.mattkuo.wheredatbus.model.Routes;
 import com.mattkuo.wheredatbus.protobuff.ProtoRoute;
@@ -43,14 +47,13 @@ public class RouteDirectoryFragment extends ListFragment {
 
     }
 
-//    @Override
-//    public void onListItemClick(ListView l, View view, int position, long id) {
-//        String selectedRouteShortName = ((ProtoRoute) getListAdapter().getItem(position))
-//                .getRouteShortName();
-//        Log.d(TAG, "SelectedID - " + selectedRouteShortName);
-//
-//        Intent i = new Intent(getActivity(), MapListActivity.class);
-//        i.putExtra(MapListFragment.EXTRA_ROUTE_NAME, selectedRouteShortName);
-//        startActivity(i);
-//    }
+    @Override
+    public void onListItemClick(ListView l, View view, int position, long id) {
+        String selectedRouteShortName = ((ProtoRoute) getListAdapter().getItem(position)).route_short;
+        Log.d(TAG, "SelectedID - " + selectedRouteShortName);
+
+        Intent i = new Intent(getActivity(), MapListActivity.class);
+        i.putExtra(MapListFragment.EXTRA_ROUTE_NAME, selectedRouteShortName);
+        startActivity(i);
+    }
 }
