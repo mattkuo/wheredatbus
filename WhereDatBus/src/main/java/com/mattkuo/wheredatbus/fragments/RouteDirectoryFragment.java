@@ -23,8 +23,6 @@ import java.util.List;
 public class RouteDirectoryFragment extends ListFragment {
     private static final String TAG = "RouteDirectoryFragment";
 
-    //private RoutesDataSource mDataSource;
-
     public RouteDirectoryFragment() {}
 
     @Override
