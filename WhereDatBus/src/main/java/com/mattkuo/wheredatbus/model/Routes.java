@@ -3,8 +3,10 @@ package com.mattkuo.wheredatbus.model;
 import android.content.Context;
 import android.util.Log;
 
+import com.mattkuo.wheredatbus.data.WireProtoBuf;
 import com.mattkuo.wheredatbus.protobuff.ProtoRoute;
 import com.mattkuo.wheredatbus.protobuff.ProtoRoutes;
+import com.mattkuo.wheredatbus.protobuff.ProtoShape;
 import com.squareup.wire.Wire;
 
 import java.io.IOException;
@@ -13,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Routes {
-    private static final String TAG = "ProtoRoutes";
+    private static final String TAG = "Routes";
 
     private static Routes sRoutes = null;
     HashMap<String, ProtoRoute> mRouteMap = new HashMap<>();
@@ -34,7 +36,7 @@ public class Routes {
 
     private Routes(Context context) {
         mContext = context;
-        Wire wire = new Wire();
+        Wire wire = WireProtoBuf.getInstance();
 
         try {
             mProtoRoutes = wire.parseFrom(context.getAssets().open("routes"), ProtoRoutes.class);
@@ -60,5 +62,15 @@ public class Routes {
 
     public List<ProtoRoute> getRoutes() {
         return mProtoRoutes.routes;
+    }
+
+    public ProtoShape getShape(String routeNum) {
+        Wire wire = WireProtoBuf.getInstance();
+        try {
+            return wire.parseFrom(mContext.getAssets().open(routeNum + ".shape"), ProtoShape.class);
+        } catch (IOException e) {
+            Log.e(TAG, "Problem opening shape file: " + e.getMessage());
+        }
+        return null;
     }
 }

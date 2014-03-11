@@ -11,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.mattkuo.wheredatbus.R;
-import com.mattkuo.wheredatbus.activities.MapListActivity;
+import com.mattkuo.wheredatbus.activities.RouteMapActivity;
 import com.mattkuo.wheredatbus.adapters.RouteListAdapter;
 import com.mattkuo.wheredatbus.model.Routes;
 import com.mattkuo.wheredatbus.protobuff.ProtoRoute;
@@ -50,8 +50,8 @@ public class RouteDirectoryFragment extends ListFragment {
         String selectedRouteShortName = ((ProtoRoute) getListAdapter().getItem(position)).route_short;
         Log.d(TAG, "SelectedID - " + selectedRouteShortName);
 
-        Intent i = new Intent(getActivity(), MapListActivity.class);
-        i.putExtra(MapListFragment.EXTRA_ROUTE_NAME, selectedRouteShortName);
+        Intent i = new Intent(getActivity(), RouteMapActivity.class);
+        i.putExtra("ROUTE", selectedRouteShortName);
         startActivity(i);
     }
 }
