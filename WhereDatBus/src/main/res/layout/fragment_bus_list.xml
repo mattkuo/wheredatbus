@@ -13,6 +13,8 @@
     <TextView android:id="@id/android:empty"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#ffff0000"
-              android:text="No data"/>
+              android:background="#ffffffff"
+              android:gravity="center"
+              android:text="@string/data_unavailable"
+              android:textColor="#ff0074ff"/>
 </LinearLayout>

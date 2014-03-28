@@ -48,8 +48,6 @@ public class BusListFragment extends ListFragment {
 
                 if (mRouteName != null) {
                     busList.addAll(buses);
-                } else {
-                    ((TextView) getView().findViewById(android.R.id.empty)).setText(mRouteName);
                 }
 
                 ArrayAdapter busAdapter = new BusListAdapter(getActivity().getApplicationContext
