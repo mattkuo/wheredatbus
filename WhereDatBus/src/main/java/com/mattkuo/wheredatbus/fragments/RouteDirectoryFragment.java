@@ -39,10 +39,9 @@ public class RouteDirectoryFragment extends ListFragment {
         List<ProtoRoute> routeList = routes.getRoutes();
 
         ArrayAdapter<ProtoRoute> routesAdapter = new RouteListAdapter(getActivity()
-                .getApplication(), new ArrayList<>(routeList));
+                .getApplication(), new ArrayList<ProtoRoute>(routeList));
 
         setListAdapter(routesAdapter);
-
     }
 
     @Override
@@ -51,7 +50,7 @@ public class RouteDirectoryFragment extends ListFragment {
         Log.d(TAG, "SelectedID - " + selectedRouteShortName);
 
         Intent i = new Intent(getActivity(), RouteMapActivity.class);
-        i.putExtra("ROUTE", selectedRouteShortName);
+        i.putExtra(RouteMapActivity.EXTRA_SHORT_ROUTE_NAME, selectedRouteShortName);
         startActivity(i);
     }
 }

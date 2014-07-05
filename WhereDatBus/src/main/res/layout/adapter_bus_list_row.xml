@@ -8,7 +8,7 @@
                 android:padding="13dp">
 
     <LinearLayout
-        android:id="@+id/route_list_item_route_box"
+        android:id="@+id/route_list_item_left_container"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
@@ -39,7 +39,7 @@
         android:id="@+id/route_list_item_destination"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@id/route_list_item_route_box"
+        android:layout_toRightOf="@id/route_list_item_left_container"
         android:layout_marginLeft="13dp"
         android:text="TO METROTOWN"
         android:textColor="#040404"

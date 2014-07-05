@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.fragments.RouteDirectoryFragment;
-import com.mattkuo.wheredatbus.fragments.SearchFragment;
+import com.mattkuo.wheredatbus.fragments.SearchBusStopFragment;
 
 public class MainActivity extends Activity {
     private String[] mMenuItems;
@@ -28,7 +28,7 @@ public class MainActivity extends Activity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.adapter_drawer_list_item,
+        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.adapter_drawer_list_item,
                 mMenuItems));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
     }
@@ -47,13 +47,13 @@ public class MainActivity extends Activity {
 
         switch (position) {
             case 0:
-                fragment = new SearchFragment();
+                fragment = SearchBusStopFragment.newInstance();
                 break;
-            case 3:
+            case 2:
                 fragment = new RouteDirectoryFragment();
                 break;
             default:
-                fragment = new SearchFragment();
+                fragment = SearchBusStopFragment.newInstance();
                 break;
         }
 

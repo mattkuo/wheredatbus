@@ -2,6 +2,7 @@ package com.mattkuo.wheredatbus.fragments;
 
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +22,15 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-
+/**
+ * Fragment that holds a listview for a list of buses for a route
+ */
 public class BusListFragment extends ListFragment {
-    final static String SHORT_ROUTE_NAME = "com.mattkuo.wheredatbus.short_route_name";
+    final static String EXTRA_SHORT_ROUTE_NAME = "com.mattkuo.wheredatbus.EXTRA_SHORT_ROUTE_NAME";
 
-    String mRouteName;
-    BusListListener mBusListListener;
+    private String mRouteName;
+    private BusListListener mBusListListener;
+    private Context mContext;
 
     // Activity needs to implement to listen to changes
     public interface BusListListener {
@@ -36,18 +40,25 @@ public class BusListFragment extends ListFragment {
 
     public static BusListFragment newInstance(String shortRouteName) {
         Bundle bundle = new Bundle();
-        bundle.putString(SHORT_ROUTE_NAME, shortRouteName);
+        bundle.putString(EXTRA_SHORT_ROUTE_NAME, shortRouteName);
         BusListFragment busListFragment = new BusListFragment();
         busListFragment.setArguments(bundle);
         return busListFragment;
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        mContext = getActivity().getApplicationContext();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRouteName = getArguments().getString(SHORT_ROUTE_NAME);
+        mRouteName = getArguments().getString(EXTRA_SHORT_ROUTE_NAME);
 
-        TranslinkService.getService().listOfBusForRoute(mRouteName, getResources().getString(R.string
+        TranslinkService.getBusService().listOfBusForRoute(mRouteName, getResources().getString(R.string
                 .translink), new Callback<List<Bus>>() {
             @Override
             public void success(List<Bus> buses, Response response) {
@@ -58,8 +69,7 @@ public class BusListFragment extends ListFragment {
                     busList.addAll(buses);
                 }
 
-                ArrayAdapter busAdapter = new BusListAdapter(getActivity().getApplicationContext
-                        (), busList);
+                ArrayAdapter busAdapter = new BusListAdapter(mContext, busList);
                 setListAdapter(busAdapter);
                 mBusListListener.onBusListLoaded(busList);
             }
@@ -94,5 +104,11 @@ public class BusListFragment extends ListFragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
         }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mBusListListener = null;
     }
 }
