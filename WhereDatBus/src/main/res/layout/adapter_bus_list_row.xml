@@ -3,23 +3,21 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:orientation="horizontal"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="16dp">
+                android:padding="13dp">
 
     <LinearLayout
-        android:id="@+id/route_list_item_route_box"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:id="@+id/route_list_item_left_container"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/route_list_item_route_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="18sp"
             android:gravity="center"
             android:textColor="#10bcc9"
@@ -29,6 +27,7 @@
             android:id="@+id/route_list_item_direction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textColor="#343434"
             android:textSize="12sp"
             android:text="WEST"/>
@@ -39,21 +38,23 @@
     <TextView
         android:id="@+id/route_list_item_destination"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/route_list_item_route_box"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@id/route_list_item_left_container"
+        android:layout_marginLeft="13dp"
         android:text="TO METROTOWN"
         android:textColor="#040404"
         android:typeface="sans"
         android:textSize="15sp"
-        android:paddingTop="15dp"
+        android:gravity="center"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/route_list_item_recorded_time"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_toRightOf="@id/route_list_item_destination"
+        android:gravity="right"
         android:layout_alignParentRight="true"
-        android:gravity="bottom"
         android:text="Last updated: 5:45 am"
         android:layout_marginRight="5dip"
         android:textSize="10sp"

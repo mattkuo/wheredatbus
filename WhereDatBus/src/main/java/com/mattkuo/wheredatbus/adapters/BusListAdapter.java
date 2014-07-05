@@ -12,6 +12,9 @@ import com.mattkuo.wheredatbus.model.Bus;
 
 import java.util.ArrayList;
 
+/**
+ * Adapter to hold a list of buses
+ */
 public class BusListAdapter extends ArrayAdapter<Bus> {
 
     private Context mContext;
