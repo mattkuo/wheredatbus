@@ -2,11 +2,11 @@
 <pre-dex-items>
 
     <item
-        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/wire-runtime-1.5.0-5324079bd8e33d50ef546192851ccb4a5643c6d1.jar"
-        jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.squareup.wire/wire-runtime/1.5.0/82ba871dce53ada7608bd31db6a2431c7ea650a3/wire-runtime-1.5.0.jar"
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/okio-1.0.0-93ef8a1f0600db758abd5a346f4ac8ab3c154794.jar"
+        jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.0.0/2534c458682c73f5b9871131ab3098d3f987ca3/okio-1.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="82ba871dce53ada7608bd31db6a2431c7ea650a3"/>
+        sha1="02534c458682c73f5b9871131ab3098d3f987ca3"/>
     <item
         dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-a416067f6f4c34672fadb00da46ee7221b314080.jar"
         jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
@@ -20,17 +20,17 @@
         revision="19.1.0"
         sha1="23de973a4908bc6f5ac6524af3251a19ad81a7b1"/>
     <item
-        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/okio-0.9.0-4a7a130594880e055bbc1215a423dbf0a1d4903d.jar"
-        jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/0.9.0/89ffbdf14071820df6817bf00b62d4f38316e1bc/okio-0.9.0.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="89ffbdf14071820df6817bf00b62d4f38316e1bc"/>
-    <item
         dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-e025bf7c4d3a1b26916c64a06323333eec0163d4.jar"
         jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/classes.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="3dfdf1db5ce5ea2999a5dcde8c8e650b02660059"/>
+    <item
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/wire-runtime-1.5.1-8c0313577df1ae5c243042f2bb62b6cf6c907860.jar"
+        jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.squareup.wire/wire-runtime/1.5.1/e29e966a7f81a2c6bc2c947fb80d26121ec81592/wire-runtime-1.5.1.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="e29e966a7f81a2c6bc2c947fb80d26121ec81592"/>
     <item
         dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/gson-2.2.4-4bc926cd5b135adbe4ee0e3d4369845fa23eb36e.jar"
         jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"

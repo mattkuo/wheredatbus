@@ -21,10 +21,14 @@ public final class ProtoRouteData extends Message {
   @ProtoField(tag = 2, type = INT32, label = PACKED)
   public final List<Integer> stops1;
 
+  public ProtoRouteData(List<Integer> stops0, List<Integer> stops1) {
+    this.stops0 = immutableCopyOf(stops0);
+    this.stops1 = immutableCopyOf(stops1);
+  }
+
   private ProtoRouteData(Builder builder) {
-    super(builder);
-    this.stops0 = immutableCopyOf(builder.stops0);
-    this.stops1 = immutableCopyOf(builder.stops1);
+    this(builder.stops0, builder.stops1);
+    setBuilder(builder);
   }
 
   @Override
@@ -40,8 +44,8 @@ public final class ProtoRouteData extends Message {
   public int hashCode() {
     int result = hashCode;
     if (result == 0) {
-      result = stops0 != null ? stops0.hashCode() : 0;
-      result = result * 37 + (stops1 != null ? stops1.hashCode() : 0);
+      result = stops0 != null ? stops0.hashCode() : 1;
+      result = result * 37 + (stops1 != null ? stops1.hashCode() : 1);
       hashCode = result;
     }
     return result;
@@ -63,12 +67,12 @@ public final class ProtoRouteData extends Message {
     }
 
     public Builder stops0(List<Integer> stops0) {
-      this.stops0 = stops0;
+      this.stops0 = checkForNulls(stops0);
       return this;
     }
 
     public Builder stops1(List<Integer> stops1) {
-      this.stops1 = stops1;
+      this.stops1 = checkForNulls(stops1);
       return this;
     }
 

@@ -16,9 +16,13 @@ public final class ProtoPath extends Message {
   @ProtoField(tag = 1, label = REPEATED)
   public final List<ProtoCoordinate> coordinates;
 
+  public ProtoPath(List<ProtoCoordinate> coordinates) {
+    this.coordinates = immutableCopyOf(coordinates);
+  }
+
   private ProtoPath(Builder builder) {
-    super(builder);
-    this.coordinates = immutableCopyOf(builder.coordinates);
+    this(builder.coordinates);
+    setBuilder(builder);
   }
 
   @Override
@@ -31,7 +35,7 @@ public final class ProtoPath extends Message {
   @Override
   public int hashCode() {
     int result = hashCode;
-    return result != 0 ? result : (hashCode = coordinates != null ? coordinates.hashCode() : 0);
+    return result != 0 ? result : (hashCode = coordinates != null ? coordinates.hashCode() : 1);
   }
 
   public static final class Builder extends Message.Builder<ProtoPath> {
@@ -48,7 +52,7 @@ public final class ProtoPath extends Message {
     }
 
     public Builder coordinates(List<ProtoCoordinate> coordinates) {
-      this.coordinates = coordinates;
+      this.coordinates = checkForNulls(coordinates);
       return this;
     }
 

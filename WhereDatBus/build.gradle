@@ -27,6 +27,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:appcompat-v7:+'
     compile 'com.android.support:support-v4:+'
-    compile 'com.squareup.wire:wire-runtime:+'
+    compile 'com.squareup.wire:wire-runtime:1.5.1'
     compile 'com.squareup.retrofit:retrofit:1.4.1'
 }

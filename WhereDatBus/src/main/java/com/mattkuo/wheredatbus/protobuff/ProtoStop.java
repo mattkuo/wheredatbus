@@ -22,11 +22,15 @@ public final class ProtoStop extends Message {
   @ProtoField(tag = 3)
   public final ProtoCoordinate coordinate;
 
+  public ProtoStop(Integer stop_code, String stop_name, ProtoCoordinate coordinate) {
+    this.stop_code = stop_code;
+    this.stop_name = stop_name;
+    this.coordinate = coordinate;
+  }
+
   private ProtoStop(Builder builder) {
-    super(builder);
-    this.stop_code = builder.stop_code;
-    this.stop_name = builder.stop_name;
-    this.coordinate = builder.coordinate;
+    this(builder.stop_code, builder.stop_name, builder.coordinate);
+    setBuilder(builder);
   }
 
   @Override
