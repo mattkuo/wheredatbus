@@ -16,9 +16,13 @@ public final class ProtoStops extends Message {
   @ProtoField(tag = 1, label = REPEATED)
   public final List<ProtoStop> stops;
 
+  public ProtoStops(List<ProtoStop> stops) {
+    this.stops = immutableCopyOf(stops);
+  }
+
   private ProtoStops(Builder builder) {
-    super(builder);
-    this.stops = immutableCopyOf(builder.stops);
+    this(builder.stops);
+    setBuilder(builder);
   }
 
   @Override
@@ -31,7 +35,7 @@ public final class ProtoStops extends Message {
   @Override
   public int hashCode() {
     int result = hashCode;
-    return result != 0 ? result : (hashCode = stops != null ? stops.hashCode() : 0);
+    return result != 0 ? result : (hashCode = stops != null ? stops.hashCode() : 1);
   }
 
   public static final class Builder extends Message.Builder<ProtoStops> {
@@ -48,7 +52,7 @@ public final class ProtoStops extends Message {
     }
 
     public Builder stops(List<ProtoStop> stops) {
-      this.stops = stops;
+      this.stops = checkForNulls(stops);
       return this;
     }
 

@@ -16,9 +16,13 @@ public final class ProtoShape extends Message {
   @ProtoField(tag = 1, label = REPEATED)
   public final List<ProtoPath> path;
 
+  public ProtoShape(List<ProtoPath> path) {
+    this.path = immutableCopyOf(path);
+  }
+
   private ProtoShape(Builder builder) {
-    super(builder);
-    this.path = immutableCopyOf(builder.path);
+    this(builder.path);
+    setBuilder(builder);
   }
 
   @Override
@@ -31,7 +35,7 @@ public final class ProtoShape extends Message {
   @Override
   public int hashCode() {
     int result = hashCode;
-    return result != 0 ? result : (hashCode = path != null ? path.hashCode() : 0);
+    return result != 0 ? result : (hashCode = path != null ? path.hashCode() : 1);
   }
 
   public static final class Builder extends Message.Builder<ProtoShape> {
@@ -48,7 +52,7 @@ public final class ProtoShape extends Message {
     }
 
     public Builder path(List<ProtoPath> path) {
-      this.path = path;
+      this.path = checkForNulls(path);
       return this;
     }
 

@@ -18,10 +18,14 @@ public final class ProtoCoordinate extends Message {
   @ProtoField(tag = 2, type = FLOAT)
   public final Float longitude;
 
+  public ProtoCoordinate(Float latitude, Float longitude) {
+    this.latitude = latitude;
+    this.longitude = longitude;
+  }
+
   private ProtoCoordinate(Builder builder) {
-    super(builder);
-    this.latitude = builder.latitude;
-    this.longitude = builder.longitude;
+    this(builder.latitude, builder.longitude);
+    setBuilder(builder);
   }
 
   @Override
