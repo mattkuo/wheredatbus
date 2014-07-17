@@ -29,9 +29,7 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
 
         mMapFragment = TransitDataMapFragment.newInstance(mBusStopCode);
         mStopTimesExpListFragment = StopTimesExpListFragment.newInstance(mBusStopCode);
-        fm.beginTransaction()
-//                .replace(R.id.map_container, mMapFragment)
-                .replace(R.id.map_data_list, mStopTimesExpListFragment).commit();
+        fm.beginTransaction().replace(R.id.map_data_list, mStopTimesExpListFragment).commit();
 
     }
 

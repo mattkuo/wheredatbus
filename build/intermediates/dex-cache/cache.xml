@@ -8,23 +8,29 @@
         revision="19.1.0"
         sha1="02534c458682c73f5b9871131ab3098d3f987ca3"/>
     <item
-        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-a416067f6f4c34672fadb00da46ee7221b314080.jar"
-        jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.1.0/classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
-    <item
         dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/retrofit-1.4.1-b2b1f938282de9099081866973fba9c0a4e70945.jar"
         jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.4.1/23de973a4908bc6f5ac6524af3251a19ad81a7b1/retrofit-1.4.1.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="23de973a4908bc6f5ac6524af3251a19ad81a7b1"/>
     <item
-        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-e025bf7c4d3a1b26916c64a06323333eec0163d4.jar"
-        jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/build/intermediates/exploded-aar/com.google.android.gms/play-services/4.4.52/classes.jar"
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/internal_impl-20.0.0-a32125ecb76c7fe3b85bcc8e6d4c3f4c8333f835.jar"
+        jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/libs/internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="3dfdf1db5ce5ea2999a5dcde8c8e650b02660059"/>
+        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d"/>
+    <item
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-c33811ddeb2172f8480653dd3982e138ae06b231.jar"
+        jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/exploded-aar/com.android.support/appcompat-v7/20.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef"/>
+    <item
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/support-annotations-20.0.0-9fa1a229e0ec79648bab301d47b06124a936a7da.jar"
+        jar="/Users/matthewkuo92/Android/extras/android/m2repository/com/android/support/support-annotations/20.0.0/support-annotations-20.0.0.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa"/>
     <item
         dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/wire-runtime-1.5.1-8c0313577df1ae5c243042f2bb62b6cf6c907860.jar"
         jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.squareup.wire/wire-runtime/1.5.1/e29e966a7f81a2c6bc2c947fb80d26121ec81592/wire-runtime-1.5.1.jar"
@@ -32,16 +38,22 @@
         revision="19.1.0"
         sha1="e29e966a7f81a2c6bc2c947fb80d26121ec81592"/>
     <item
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-f9bedb487d409f11621e3130d1b300e87bba8a71.jar"
+        jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/exploded-aar/com.android.support/support-v4/20.0.0/classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="8694693636ab36910c8100ce527c258ff3ebece0"/>
+    <item
         dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/gson-2.2.4-4bc926cd5b135adbe4ee0e3d4369845fa23eb36e.jar"
         jar="/Users/matthewkuo92/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.2.4/a60a5e993c98c864010053cb901b7eab25306568/gson-2.2.4.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
     <item
-        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/support-v4-19.1.0-fe930dc68beb1e566675ce71b270d4091c6c249b.jar"
-        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        dex="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/pre-dexed/debug/classes-10c921035c90bb346e184a6d0d8a1bf24d0f991d.jar"
+        jar="/Users/matthewkuo92/AndroidStudioProjects/WhereDatBus/WhereDatBus/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/classes.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>
+        sha1="b6a82434c1eca686607867cd906bcc80ed987837"/>
 
 </pre-dex-items>

@@ -1,10 +1,13 @@
 package com.mattkuo.wheredatbus.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mattkuo.wheredatbus.R;
@@ -60,6 +63,7 @@ public class ScheduleExpListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         String routeNumber = ((StopSchedule) getGroup(groupPosition)).getRouteNo();
+        String routeName = ((StopSchedule) getGroup(groupPosition)).getRouteName();
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,7 +71,7 @@ public class ScheduleExpListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView route = (TextView) convertView.findViewById(R.id.bus_route_header);
-        route.setText(routeNumber);
+        route.setText(routeNumber + " - " + routeName);
         return convertView;
     }
 
@@ -80,11 +84,31 @@ public class ScheduleExpListAdapter extends BaseExpandableListAdapter {
             view = inflater.inflate(R.layout.explistview_children, viewGroup, false);
         }
 
-        TextView scheduleChildren = (TextView) view.findViewById(R.id.schedule_children);
+        TextView scheduleDestination = (TextView) view.findViewById(R.id.schedule_destination);
+        TextView scheduleTime = (TextView) view.findViewById(R.id.schedule_time);
+        ImageView clockIcon = (ImageView) view.findViewById(R.id.schedule_status);
 
+        String dest = mStopSchedules.get(groupPosition).getSchedules().get(childPosition).getDestination();
         String leaveTime = mStopSchedules.get(groupPosition).getSchedules().get(childPosition).getExpectedLeaveTime();
+        String status = mStopSchedules.get(groupPosition).getSchedules().get(childPosition).getScheduleStatus();
 
-        scheduleChildren.setText(leaveTime);
+        scheduleDestination.setText(dest);
+        scheduleTime.setText(leaveTime);
+
+        switch (status) {
+            case "+": // Early
+                clockIcon.setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_ATOP);
+                break;
+            case "-": // Late
+                clockIcon.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
+                break;
+            case "*": // Scheduled
+                clockIcon.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+            default:
+                clockIcon.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+                break;
+        }
+
         return view;
     }
 

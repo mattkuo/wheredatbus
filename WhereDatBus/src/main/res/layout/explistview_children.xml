@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_margin="13dp">
+
     <TextView
-        android:id="@+id/schedule_children"
-        android:layout_width="fill_parent"
+        android:id="@+id/schedule_destination"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"/>
+        android:gravity="center"
+        android:layout_weight="2"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp"
+        android:text="SURREY CTRL STN" />
+
+    <TextView
+        android:id="@+id/schedule_time"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:paddingBottom="13dp"
+        android:paddingTop="13dp"
+        android:text="12:20am" />
+
+    <ImageView
+        android:id="@+id/schedule_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:src="@drawable/clock" />
 
 </LinearLayout>

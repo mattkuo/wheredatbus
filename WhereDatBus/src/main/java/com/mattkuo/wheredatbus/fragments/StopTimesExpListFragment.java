@@ -36,11 +36,6 @@ public class StopTimesExpListFragment extends Fragment {
     private int mBusStopCode;
     private ExpandableListView mScheduleExpListView;
 
-
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public StopTimesExpListFragment() {
     }
 
