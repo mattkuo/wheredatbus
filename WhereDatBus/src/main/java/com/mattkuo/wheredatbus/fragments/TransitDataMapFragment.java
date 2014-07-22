@@ -3,11 +3,11 @@ package com.mattkuo.wheredatbus.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,9 +23,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.model.Bus;
 import com.mattkuo.wheredatbus.model.Routes;
+import com.mattkuo.wheredatbus.model.Stops;
 import com.mattkuo.wheredatbus.protobuff.ProtoCoordinate;
 import com.mattkuo.wheredatbus.protobuff.ProtoPath;
 import com.mattkuo.wheredatbus.protobuff.ProtoShape;
+import com.mattkuo.wheredatbus.protobuff.ProtoStop;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -133,6 +135,20 @@ public class TransitDataMapFragment extends MapFragment {
         mLatLngBounds = mBoundsBuilder.build();
     }
 
+    public void plotStop() {
+        ProtoStop stop = Stops.getInstance(getActivity()).getStop(mBusStopCode);
+
+        LatLng stopLatLng = new LatLng(stop.coordinate.latitude, stop.coordinate.longitude);
+
+        if (mGoogleMap == null) {
+            return;
+        }
+
+        mBoundsBuilder = new LatLngBounds.Builder();
+        mBoundsBuilder.include(stopLatLng);
+        mLatLngBounds = mBoundsBuilder.build();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -176,12 +192,15 @@ public class TransitDataMapFragment extends MapFragment {
                     if (mLatLngBounds != null) {
                         update = CameraUpdateFactory.newLatLngBounds(mLatLngBounds, 50);
                     } else {
-                        // TODO: center on bus stop
-                        update = null;//CameraUpdateFactory.
+                        update = null;
                     }
 
 
                     mGoogleMap.moveCamera(update);
+
+                    if (mRouteName == null) {
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLngBounds.getCenter(), 15.0f));
+                    }
                 }
 
             }

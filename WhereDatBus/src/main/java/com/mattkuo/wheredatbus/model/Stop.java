@@ -1,7 +1,9 @@
 package com.mattkuo.wheredatbus.model;
 
 
-public class Stop {
+import java.io.Serializable;
+
+public class Stop implements Serializable {
     private int mStopCode;
     private String mStopName;
     private float mLatitude;

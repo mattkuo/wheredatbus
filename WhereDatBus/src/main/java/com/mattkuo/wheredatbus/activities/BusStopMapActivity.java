@@ -4,10 +4,31 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mattkuo.wheredatbus.R;
+import com.mattkuo.wheredatbus.adapters.ScheduleExpListAdapter;
+import com.mattkuo.wheredatbus.data.ApiErrorDeserializer;
+import com.mattkuo.wheredatbus.data.TranslinkService;
 import com.mattkuo.wheredatbus.fragments.StopTimesExpListFragment;
 import com.mattkuo.wheredatbus.fragments.TransitDataMapFragment;
+import com.mattkuo.wheredatbus.model.ApiError;
+import com.mattkuo.wheredatbus.model.Stop;
+import com.mattkuo.wheredatbus.model.StopSchedule;
+import com.mattkuo.wheredatbus.model.Stops;
+import com.mattkuo.wheredatbus.protobuff.ProtoStop;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class BusStopMapActivity extends Activity implements TransitDataMapFragment.MapsLoadedListener {
     public static final String EXTRA_BUSSTOP = "com.mattkuo.WhereDatBus.EXTRA_BUSSTOP";
@@ -28,13 +49,53 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
         getActionBar().setSubtitle("Stop: " + mBusStopCode);
 
         mMapFragment = TransitDataMapFragment.newInstance(mBusStopCode);
+
         mStopTimesExpListFragment = StopTimesExpListFragment.newInstance(mBusStopCode);
-        fm.beginTransaction().replace(R.id.map_data_list, mStopTimesExpListFragment).commit();
+        fm.beginTransaction().replace(R.id.map_data_list, mStopTimesExpListFragment)
+                .replace(R.id.map_container, mMapFragment).commit();
+
+        // Get stop data
+        TranslinkService.getStopService().timesForRoute(mBusStopCode,
+                getResources().getString(R.string.translink), new Callback<List<StopSchedule>>() {
+                    @Override
+                    public void success(List<StopSchedule> stopSchedules, Response response) {
+                        ArrayList<StopSchedule> listOfStopSchedules = new ArrayList<>();
+                        if (mBusStopCode != 0) {
+                            listOfStopSchedules.addAll(stopSchedules);
+                        }
+
+                        ScheduleExpListAdapter scheduleExpListAdapter = new
+                                ScheduleExpListAdapter(listOfStopSchedules, BusStopMapActivity.this);
+                        mStopTimesExpListFragment.setAdapter(scheduleExpListAdapter);
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.i(TAG, error.getResponse().getReason());
+
+                        try {
+                            Reader reader = new InputStreamReader(error.getResponse().getBody()
+                                    .in());
+                            Gson gson = new GsonBuilder().registerTypeAdapter(ApiError.class,
+                                    new ApiErrorDeserializer()).create();
+                            ApiError apiError = gson.fromJson(reader, ApiError.class);
+
+                            Toast toast = Toast.makeText(BusStopMapActivity.this, apiError.getMessage(),
+                                    Toast.LENGTH_LONG);
+                            toast.show();
+
+                        } catch (IOException e) {
+                            Log.e(TAG, e.getMessage());
+                        }
+                    }
+
+                }
+        );
 
     }
 
     @Override
     public void onMapsLoaded() {
-        Log.d(TAG, "Maps Loaded");
+        mMapFragment.plotStop();
     }
 }

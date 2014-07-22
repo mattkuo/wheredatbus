@@ -50,6 +50,7 @@ public class RouteDirectoryFragment extends ListFragment {
         Log.d(TAG, "SelectedID - " + selectedRouteShortName);
 
         Intent i = new Intent(getActivity(), RouteMapActivity.class);
+
         i.putExtra(RouteMapActivity.EXTRA_SHORT_ROUTE_NAME, selectedRouteShortName);
         startActivity(i);
     }

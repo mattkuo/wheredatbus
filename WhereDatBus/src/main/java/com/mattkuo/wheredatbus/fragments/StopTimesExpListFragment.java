@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
@@ -55,43 +56,7 @@ public class StopTimesExpListFragment extends Fragment {
             mBusStopCode = getArguments().getInt(BUS_STOP_CODE);
         }
 
-        TranslinkService.getStopService().timesForRoute(mBusStopCode,
-                getResources().getString(R.string.translink), new Callback<List<StopSchedule>>() {
-                    @Override
-                    public void success(List<StopSchedule> stopSchedules, Response response) {
-                        ArrayList<StopSchedule> listOfStopSchedules = new ArrayList<>();
-                        if (mBusStopCode != 0) {
-                            listOfStopSchedules.addAll(stopSchedules);
-                        }
 
-                        ScheduleExpListAdapter scheduleExpListAdapter = new
-                                ScheduleExpListAdapter(listOfStopSchedules, getActivity());
-                        mScheduleExpListView.setAdapter(scheduleExpListAdapter);
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.i(TAG, error.getResponse().getReason());
-
-                        try {
-                            Reader reader = new InputStreamReader(error.getResponse().getBody()
-                                    .in());
-                            Gson gson = new GsonBuilder().registerTypeAdapter(ApiError.class,
-                                    new ApiErrorDeserializer()).create();
-                            ApiError apiError = gson.fromJson(reader, ApiError.class);
-
-                            Toast toast = Toast.makeText(getActivity(), apiError.getMessage(),
-                                    Toast.LENGTH_LONG);
-                            toast.show();
-
-                        } catch (IOException e) {
-                            Log.e(TAG, e.getMessage());
-                        }
-                    }
-
-                }
-        );
     }
 
     @Override
@@ -100,6 +65,10 @@ public class StopTimesExpListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stop_times_explistview, container, false);
         mScheduleExpListView = (ExpandableListView) view.findViewById(R.id.stoptimes_explistview);
         return view;
+    }
+
+    public void setAdapter(BaseExpandableListAdapter expandableListAdapter) {
+        mScheduleExpListView.setAdapter(expandableListAdapter);
     }
 
 
