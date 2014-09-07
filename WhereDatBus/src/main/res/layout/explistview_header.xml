@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="horizontal"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:padding="13dp"
-              android:background="#000000">
+              android:background="#444">
 
     <TextView
         android:id="@+id/bus_route_header"
@@ -13,6 +13,16 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/white"
         android:textSize="20sp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_toLeftOf="@+id/tab_down_imageview"
     />
 
-</LinearLayout>
+    <ImageView
+        android:id="@id/tab_down_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/tab_down"/>
+
+</RelativeLayout>

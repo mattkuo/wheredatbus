@@ -3,6 +3,7 @@ package com.mattkuo.wheredatbus.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.mattkuo.wheredatbus.model.StopSchedule;
 import java.util.ArrayList;
 
 public class ScheduleExpListAdapter extends BaseExpandableListAdapter {
+    private final String TAG = ScheduleExpListAdapter.class.getName();
 
     private Context mContext;
     private ArrayList<StopSchedule> mStopSchedules;
@@ -90,6 +92,7 @@ public class ScheduleExpListAdapter extends BaseExpandableListAdapter {
 
         String dest = mStopSchedules.get(groupPosition).getSchedules().get(childPosition).getDestination();
         String leaveTime = mStopSchedules.get(groupPosition).getSchedules().get(childPosition).getExpectedLeaveTime();
+        leaveTime = leaveTime.replaceAll("\\s\\d{4}-\\d{2}-\\d{2}$", "");
         String status = mStopSchedules.get(groupPosition).getSchedules().get(childPosition).getScheduleStatus();
 
         scheduleDestination.setText(dest);
@@ -103,7 +106,8 @@ public class ScheduleExpListAdapter extends BaseExpandableListAdapter {
                 clockIcon.setColorFilter(Color.RED, PorterDuff.Mode.SRC_ATOP);
                 break;
             case "*": // Scheduled
-                clockIcon.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+                clockIcon.setColorFilter(Color.LTGRAY, PorterDuff.Mode.SRC_ATOP);
+                break;
             default:
                 clockIcon.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
                 break;
