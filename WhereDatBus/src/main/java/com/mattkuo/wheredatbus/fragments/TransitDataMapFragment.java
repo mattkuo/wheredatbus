@@ -3,7 +3,6 @@ package com.mattkuo.wheredatbus.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -154,7 +153,7 @@ public class TransitDataMapFragment extends MapFragment {
         super.onCreate(savedInstanceState);
         mRouteName = getArguments().getString(EXTRA_SHORT_ROUTE_NAME);
         mBusStopCode = getArguments().getInt(EXTRA_BUSSTOP_CODE);
-        mContext = getActivity().getApplicationContext();
+        mContext = getActivity();
     }
 
     @Override

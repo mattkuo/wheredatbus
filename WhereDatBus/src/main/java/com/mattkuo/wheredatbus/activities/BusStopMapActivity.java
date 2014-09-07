@@ -71,8 +71,13 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
 
                     @Override
                     public void failure(RetrofitError error) {
-                        Log.i(TAG, error.getResponse().getReason());
+                        if (error.getResponse() == null) {
+                            Toast.makeText(BusStopMapActivity.this, getString(R.string.network_error), Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }
 
+                        Log.e(TAG, error.getResponse().getReason());
                         try {
                             Reader reader = new InputStreamReader(error.getResponse().getBody()
                                     .in());
