@@ -35,3 +35,4 @@ build/
 *.iws
 *~
 *.swp
+*.DS_STORE
