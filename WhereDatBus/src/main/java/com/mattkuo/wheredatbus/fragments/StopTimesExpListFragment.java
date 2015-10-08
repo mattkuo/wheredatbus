@@ -60,6 +60,8 @@ public class StopTimesExpListFragment extends Fragment {
                 return false;
             }
         });
+
+        mScheduleExpListView.setGroupIndicator(null);
         return view;
     }
 
