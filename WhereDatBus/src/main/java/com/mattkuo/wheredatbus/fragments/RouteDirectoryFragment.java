@@ -25,6 +25,10 @@ public class RouteDirectoryFragment extends ListFragment {
 
     public RouteDirectoryFragment() {}
 
+    public static RouteDirectoryFragment newInstance() {
+        return new RouteDirectoryFragment();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

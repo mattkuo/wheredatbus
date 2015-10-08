@@ -3,8 +3,13 @@
     tools:context="com.mattkuo.wheredatbus.MainActivity" >
 
     <item android:id="@+id/action_search"
-        android:title="@string/action_settings"
+        android:title="@string/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:showAsAction="always"
         android:actionViewClass="android.widget.SearchView" />
+
+    <item android:id="@+id/action_routes"
+        android:title="@string/action_routes"
+        android:icon="@drawable/collections_view_as_list"
+        android:showAsAction="collapseActionView|ifRoom" />
 </menu>
