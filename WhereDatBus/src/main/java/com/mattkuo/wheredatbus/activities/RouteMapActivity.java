@@ -22,22 +22,6 @@ public class RouteMapActivity extends Activity implements BusListFragment.BusLis
     TransitDataMapFragment mMapFragment;
     BusListFragment mBusListFragment;
 
-
-    @Override
-    public void onBusListItemClick(Bus bus) {
-        mMapFragment.handleClickedBus(bus);
-    }
-
-    @Override
-    public void onBusListLoaded(ArrayList<Bus> listOfBuses) {
-        mMapFragment.plotBuses(listOfBuses);
-    }
-
-    @Override
-    public void onMapsLoaded() {
-        mMapFragment.plotRoute();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,4 +38,21 @@ public class RouteMapActivity extends Activity implements BusListFragment.BusLis
         mBusListFragment = BusListFragment.newInstance(mShortRouteName);
         fm.beginTransaction().replace(R.id.map_data_list, mBusListFragment).commit();
     }
+
+    @Override
+    public void onBusListItemClick(Bus bus) {
+        mMapFragment.handleClickedBus(bus);
+    }
+
+    @Override
+    public void onBusListLoaded(ArrayList<Bus> listOfBuses) {
+        mMapFragment.plotBuses(listOfBuses);
+    }
+
+    @Override
+    public void onMapsLoaded() {
+        mMapFragment.plotRoute();
+    }
+
+
 }

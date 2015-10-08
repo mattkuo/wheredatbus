@@ -68,6 +68,66 @@ public class TransitDataMapFragment extends MapFragment {
         return mapFragment;
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mMapsLoadedListener = (MapsLoadedListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement " +
+                    "MapsLoadedListener");
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mRouteName = getArguments().getString(EXTRA_SHORT_ROUTE_NAME);
+        mBusStopCode = getArguments().getInt(EXTRA_BUSSTOP_CODE);
+        mContext = getActivity();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        mGoogleMap = getMap();
+
+        if (mGoogleMap == null) {
+            return view;
+        }
+
+        MapsInitializer.initialize(getActivity());
+
+        mGoogleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                if (mFirstTimeLoad) {
+                    mFirstTimeLoad = false;
+                    mMapsLoadedListener.onMapsLoaded();
+                    // Need to setup bounds during onMapsLoaded call
+                    CameraUpdate update;
+                    if (mLatLngBounds != null) {
+                        update = CameraUpdateFactory.newLatLngBounds(mLatLngBounds, 50);
+                    } else {
+                        update = null;
+                    }
+
+
+                    mGoogleMap.moveCamera(update);
+
+                    if (mRouteName == null) {
+                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLngBounds.getCenter(), 15.0f));
+                    }
+                }
+
+            }
+        });
+
+        return view;
+    }
+
     public void handleClickedBus(Bus bus) {
         if (mGoogleMap == null) {
             return;
@@ -148,65 +208,6 @@ public class TransitDataMapFragment extends MapFragment {
         mLatLngBounds = mBoundsBuilder.build();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mRouteName = getArguments().getString(EXTRA_SHORT_ROUTE_NAME);
-        mBusStopCode = getArguments().getInt(EXTRA_BUSSTOP_CODE);
-        mContext = getActivity();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        try {
-            mMapsLoadedListener = (MapsLoadedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement " +
-                    "MapsLoadedListener");
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        mGoogleMap = getMap();
-
-        if (mGoogleMap == null) {
-            return view;
-        }
-
-        MapsInitializer.initialize(getActivity());
-
-        mGoogleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                if (mFirstTimeLoad) {
-                    mFirstTimeLoad = false;
-                    mMapsLoadedListener.onMapsLoaded();
-                    // Need to setup bounds during onMapsLoaded call
-                    CameraUpdate update;
-                    if (mLatLngBounds != null) {
-                        update = CameraUpdateFactory.newLatLngBounds(mLatLngBounds, 50);
-                    } else {
-                        update = null;
-                    }
-
-
-                    mGoogleMap.moveCamera(update);
-
-                    if (mRouteName == null) {
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLngBounds.getCenter(), 15.0f));
-                    }
-                }
-
-            }
-        });
-
-        return view;
-    }
 
     public interface MapsLoadedListener {
         public void onMapsLoaded();

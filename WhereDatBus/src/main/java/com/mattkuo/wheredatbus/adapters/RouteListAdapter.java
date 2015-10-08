@@ -26,7 +26,7 @@ public class RouteListAdapter extends ArrayAdapter<ProtoRoute> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
                     .LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.adapter_route_list_row, null);
+            convertView = inflater.inflate(R.layout.item_route_list_row, null);
         }
 
         ProtoRoute pr = getItem(position);

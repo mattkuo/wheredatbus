@@ -29,7 +29,7 @@ public class BusListAdapter extends ArrayAdapter<Bus> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
                     .LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.adapter_bus_list_row, null);
+            convertView = inflater.inflate(R.layout.item_bus_list_row, null);
         }
 
         // Configure the view for this Bus

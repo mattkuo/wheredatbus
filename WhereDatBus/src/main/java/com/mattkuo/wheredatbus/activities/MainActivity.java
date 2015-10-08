@@ -34,28 +34,6 @@ public class MainActivity extends Activity {
         this.handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if (mSearchFragment == null) {
-                mSearchFragment = SearchBusStopFragment.newInstance(query);
-            } else {
-                mSearchFragment.search(query);
-            }
-
-            swapFragment(mSearchFragment);
-        }
-    }
-
-    private void swapFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content_frame, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -80,4 +58,28 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            if (mSearchFragment == null) {
+                mSearchFragment = SearchBusStopFragment.newInstance(query);
+            } else {
+                mSearchFragment.search(query);
+            }
+
+            swapFragment(mSearchFragment);
+        }
+    }
+
+    private void swapFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content_frame, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+
+
 }

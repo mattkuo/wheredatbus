@@ -2,33 +2,14 @@ package com.mattkuo.wheredatbus.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mattkuo.wheredatbus.R;
-import com.mattkuo.wheredatbus.adapters.ScheduleExpListAdapter;
-import com.mattkuo.wheredatbus.data.ApiErrorDeserializer;
-import com.mattkuo.wheredatbus.data.TranslinkService;
-import com.mattkuo.wheredatbus.model.ApiError;
-import com.mattkuo.wheredatbus.model.StopSchedule;
-
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 public class StopTimesExpListFragment extends Fragment {
@@ -63,8 +44,8 @@ public class StopTimesExpListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stop_times_explistview, container, false);
-        mScheduleExpListView = (ExpandableListView) view.findViewById(R.id.stoptimes_explistview);
+        View view = inflater.inflate(R.layout.fragment_stop_times_exp_list, container, false);
+        mScheduleExpListView = (ExpandableListView) view.findViewById(R.id.stoptimes_exp_list);
         mScheduleExpListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int groupPosition, long id) {

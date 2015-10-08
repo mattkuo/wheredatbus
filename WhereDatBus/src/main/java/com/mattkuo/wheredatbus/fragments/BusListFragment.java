@@ -46,11 +46,16 @@ public class BusListFragment extends ListFragment {
         return busListFragment;
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
 
-        mContext = getActivity().getApplicationContext();
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        try {
+            mBusListListener = (BusListListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
+        }
     }
 
     @Override
@@ -82,28 +87,16 @@ public class BusListFragment extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        Bus bus = (Bus) l.getItemAtPosition(position);
-        mBusListListener.onBusListItemClick(bus);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
         return inflater.inflate(R.layout.fragment_bus_list, container, false);
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        try {
-            mBusListListener = (BusListListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnArticleSelectedListener");
-        }
+        mContext = getActivity().getApplicationContext();
     }
 
     @Override
@@ -111,4 +104,13 @@ public class BusListFragment extends ListFragment {
         super.onDetach();
         mBusListListener = null;
     }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        Bus bus = (Bus) l.getItemAtPosition(position);
+        mBusListListener.onBusListItemClick(bus);
+    }
+
 }

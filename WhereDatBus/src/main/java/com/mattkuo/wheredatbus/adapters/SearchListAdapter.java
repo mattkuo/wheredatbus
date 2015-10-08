@@ -26,7 +26,7 @@ public class SearchListAdapter extends ArrayAdapter<ProtoStop> {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context
                     .LAYOUT_INFLATER_SERVICE);
 
-            convertView = inflater.inflate(R.layout.adapter_search_list_row, null);
+            convertView = inflater.inflate(R.layout.item_search_list_row, null);
         }
 
         ProtoStop ps = getItem(position);
