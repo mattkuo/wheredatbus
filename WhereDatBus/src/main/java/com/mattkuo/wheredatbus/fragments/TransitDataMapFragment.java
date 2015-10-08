@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.MarkerOptionsCreator;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.model.Bus;
@@ -166,9 +167,11 @@ public class TransitDataMapFragment extends MapFragment {
                     break;
             }
 
-            Marker marker = mGoogleMap.addMarker(new MarkerOptions().position(bus.getLatLng())
-                    .title("Bus #: " + bus.getVehicleNo()).flat(true).icon
-                            (BitmapDescriptorFactory.fromResource(directionMarker)));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(bus.getLatLng());
+            markerOptions.title("Bus #: " + bus.getVehicleNo());
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(directionMarker));
+            Marker marker = mGoogleMap.addMarker(markerOptions);
 
             mBusMarkerHashMap.put(bus, marker);
         }
@@ -206,10 +209,15 @@ public class TransitDataMapFragment extends MapFragment {
         mBoundsBuilder = new LatLngBounds.Builder();
         mBoundsBuilder.include(stopLatLng);
         mLatLngBounds = mBoundsBuilder.build();
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(stopLatLng);
+        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_stop_icon));
+        mGoogleMap.addMarker(markerOptions);
     }
 
 
     public interface MapsLoadedListener {
-        public void onMapsLoaded();
+        void onMapsLoaded();
     }
 }

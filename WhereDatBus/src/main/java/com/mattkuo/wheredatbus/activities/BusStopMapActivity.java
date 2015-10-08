@@ -46,7 +46,7 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
 
         mBusStopCode = getIntent().getExtras().getInt(EXTRA_BUSSTOP);
 
-        getActionBar().setSubtitle("Stop: " + mBusStopCode);
+        if (getActionBar() != null) getActionBar().setTitle("Stop: " + mBusStopCode);
 
         mMapFragment = TransitDataMapFragment.newInstance(mBusStopCode);
 
