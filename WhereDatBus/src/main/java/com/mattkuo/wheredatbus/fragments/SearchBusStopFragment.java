@@ -23,59 +23,54 @@ import java.util.ArrayList;
 
 public class SearchBusStopFragment extends ListFragment {
     private static final String TAG = "com.mattkuo.SearchBusStopFragment";
+    private static final String SEARCH_QUERY = "SEARCH_QUERY";
     private TextView mSearchText;
 
     public SearchBusStopFragment() {}
 
-    public static SearchBusStopFragment newInstance() {
-        return new SearchBusStopFragment();
+    public static SearchBusStopFragment newInstance(String query) {
+        SearchBusStopFragment fragment = new SearchBusStopFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(SEARCH_QUERY, query);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        String query = getArguments().getString(SEARCH_QUERY, "");
+        this.search(query);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        mSearchText = (TextView) view.findViewById(R.id.search_fragment_search_text);
-        ImageButton searchButton = (ImageButton) view.findViewById(R.id
-                .search_fragment_search_button);
-        searchButton.setOnClickListener(new SearchListener());
-        return view;
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        search();
+        return view;
     }
 
     @Override
     public void onListItemClick(ListView l, View view, int position, long id) {
         int selectedStopCode = ((ProtoStop) getListAdapter().getItem(position)).stop_code;
-        Log.d(TAG, "Selected Stop - " + selectedStopCode);
+        Log.d(TAG, "Stop: " + selectedStopCode);
 
         Intent intent = new Intent(getActivity(), BusStopMapActivity.class);
         intent.putExtra(BusStopMapActivity.EXTRA_BUSSTOP, selectedStopCode);
         startActivity(intent);
     }
 
-    private void search() {
-        String query = mSearchText.getText().toString();
-        if (query != null && query.length() != 0) {
-            Stops stops = Stops.getInstance(getActivity().getApplicationContext());
+    public void search(String query) {
+        if (query.length() == 0) { return; }
 
-            ArrayList<ProtoStop> foundStops = stops.getStopsMatching(query);
+        Stops stops = Stops.getInstance(getActivity().getApplicationContext());
 
-            ArrayAdapter<ProtoStop> stopsAdapter = new SearchListAdapter(getActivity().getApplication(), foundStops);
+        ArrayList<ProtoStop> foundStops = stops.getStopsMatching(query);
 
-            setListAdapter(stopsAdapter);
-        }
+        ArrayAdapter<ProtoStop> stopsAdapter = new SearchListAdapter(getActivity().getApplication(), foundStops);
+
+        setListAdapter(stopsAdapter);
     }
 
-    private class SearchListener implements ImageButton.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            search();
-        }
-    }
 }
