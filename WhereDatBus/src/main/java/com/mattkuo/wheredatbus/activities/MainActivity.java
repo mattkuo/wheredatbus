@@ -2,6 +2,7 @@ package com.mattkuo.wheredatbus.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +40,10 @@ public class MainActivity extends Activity {
             }
 
             FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.content_frame, mSearchFragment).commit();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, mSearchFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 
