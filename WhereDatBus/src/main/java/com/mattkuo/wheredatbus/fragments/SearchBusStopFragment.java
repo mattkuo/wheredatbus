@@ -65,7 +65,7 @@ public class SearchBusStopFragment extends ListFragment {
 
         ArrayList<ProtoStop> foundStops = stops.getStopsMatching(query);
 
-        ArrayAdapter<ProtoStop> stopsAdapter = new SearchListAdapter(getActivity().getApplication(), foundStops);
+        ArrayAdapter<ProtoStop> stopsAdapter = new SearchListAdapter(mContext, foundStops);
 
         setListAdapter(stopsAdapter);
     }
