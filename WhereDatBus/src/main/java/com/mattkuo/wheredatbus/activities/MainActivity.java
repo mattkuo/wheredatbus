@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
                 if (mRouteDirectoryFragment == null) {
                     mRouteDirectoryFragment = RouteDirectoryFragment.newInstance();
                 }
-                this.swapFragment(mRouteDirectoryFragment);
+                this.swapFragment(mRouteDirectoryFragment, "ROUTE");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -68,18 +68,27 @@ public class MainActivity extends Activity {
                 mSearchFragment.search(query);
             }
 
-            swapFragment(mSearchFragment);
+            swapFragment(mSearchFragment, "SEARCH");
         }
     }
 
-    private void swapFragment(Fragment fragment) {
+    private void swapFragment(Fragment fragment, String tag) {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
-        transaction.addToBackStack(null);
+        if (!isTagInBackStack(tag)) transaction.addToBackStack(tag);
+
         transaction.commit();
     }
 
+    private boolean isTagInBackStack(String tag) {
+        if (getFragmentManager().getBackStackEntryCount() == 0) return false;
+        getFragmentManager().executePendingTransactions();
+        for (int i = 0; i < getFragmentManager().getBackStackEntryCount(); i++) {
+            if (getFragmentManager().getBackStackEntryAt(i).getName().equals(tag)) return true;
+        }
 
+        return false;
+    }
 
 }
