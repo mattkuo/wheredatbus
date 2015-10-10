@@ -2,11 +2,14 @@ package com.mattkuo.wheredatbus.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +35,8 @@ import com.mattkuo.wheredatbus.protobuff.ProtoStop;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TransitDataMapFragment extends MapFragment {
+public class TransitDataMapFragment extends MapFragment implements LocationListener,
+        GoogleApiClient.ConnectionCallbacks {
     public static final String EXTRA_SHORT_ROUTE_NAME = "com.mattkuo.wheredatbus" +
             ".EXTRA_SHORT_ROUTE_NAME";
     public static final String EXTRA_BUSSTOP_CODE = "com.mattkuo.wheredatbus.EXTRA_BUSSTOP_CODE";
@@ -67,6 +71,11 @@ public class TransitDataMapFragment extends MapFragment {
         TransitDataMapFragment mapFragment = new TransitDataMapFragment();
         mapFragment.setArguments(bundle);
         return mapFragment;
+    }
+
+    // For initializing Nearby map
+    public static TransitDataMapFragment newInstance() {
+        return new TransitDataMapFragment();
     }
 
     @Override
@@ -127,6 +136,21 @@ public class TransitDataMapFragment extends MapFragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
     }
 
     public void handleClickedBus(Bus bus) {
