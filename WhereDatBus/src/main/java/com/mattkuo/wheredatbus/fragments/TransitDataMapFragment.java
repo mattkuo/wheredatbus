@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,7 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.MarkerOptionsCreator;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.model.Bus;
@@ -36,13 +38,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TransitDataMapFragment extends MapFragment implements LocationListener,
-        GoogleApiClient.ConnectionCallbacks {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     public static final String EXTRA_SHORT_ROUTE_NAME = "com.mattkuo.wheredatbus" +
             ".EXTRA_SHORT_ROUTE_NAME";
     public static final String EXTRA_BUSSTOP_CODE = "com.mattkuo.wheredatbus.EXTRA_BUSSTOP_CODE";
     private boolean mFirstTimeLoad = true;
     private GoogleMap mGoogleMap;
     private Context mContext;
+    private GoogleApiClient mGoogleApiClient;
 
     // For routes map
     private String mRouteName;
@@ -50,7 +53,7 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     private LatLngBounds mLatLngBounds;
     private HashMap<Bus, Marker> mBusMarkerHashMap;
 
-    // For Bus stop map
+    // For Bus stop map. Set to -1 if no bus stop code is passed in
     private int mBusStopCode;
 
     private MapsLoadedListener mMapsLoadedListener;
@@ -75,7 +78,10 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
 
     // For initializing Nearby map
     public static TransitDataMapFragment newInstance() {
-        return new TransitDataMapFragment();
+        Bundle bundle = new Bundle();
+        TransitDataMapFragment mapFragment = new TransitDataMapFragment();
+        mapFragment.setArguments(bundle);
+        return mapFragment;
     }
 
     @Override
@@ -94,8 +100,9 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRouteName = getArguments().getString(EXTRA_SHORT_ROUTE_NAME);
-        mBusStopCode = getArguments().getInt(EXTRA_BUSSTOP_CODE);
+        mBusStopCode = getArguments().getInt(EXTRA_BUSSTOP_CODE, -1);
         mContext = getActivity();
+        buildGoogleApiClient();
     }
 
     @Override
@@ -108,7 +115,7 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
             return view;
         }
 
-        MapsInitializer.initialize(getActivity());
+        MapsInitializer.initialize(mContext);
 
         mGoogleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
@@ -116,20 +123,23 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
                 if (mFirstTimeLoad) {
                     mFirstTimeLoad = false;
                     mMapsLoadedListener.onMapsLoaded();
-                    // Need to setup bounds during onMapsLoaded call
-                    CameraUpdate update;
-                    if (mLatLngBounds != null) {
-                        update = CameraUpdateFactory.newLatLngBounds(mLatLngBounds, 50);
-                    } else {
-                        update = null;
-                    }
+                    mGoogleMap.setMyLocationEnabled(true);
 
+                    // Show nearby map
+                    CameraUpdate update;
+
+                    // Need better way of checking which constructor was used
+                    if (mRouteName == null && mBusStopCode == -1) {
+                        return;
+                    } else if (mRouteName == null) {
+                        update = CameraUpdateFactory.newLatLngZoom(mLatLngBounds.getCenter(), 15.0f);
+                    } else {
+                        // Zoom to routes bounds
+                        // Need to setup bounds during onMapsLoaded call
+                        update = CameraUpdateFactory.newLatLngBounds(mLatLngBounds, 50);
+                    }
 
                     mGoogleMap.moveCamera(update);
-
-                    if (mRouteName == null) {
-                        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mLatLngBounds.getCenter(), 15.0f));
-                    }
                 }
 
             }
@@ -139,18 +149,40 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onStart() {
+        super.onStart();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f);
+        mGoogleMap.moveCamera(update);
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f);
+        mGoogleMap.moveCamera(update);
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
+    public void onConnectionSuspended(int i) {}
 
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {}
+
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(mContext)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
     }
 
     public void handleClickedBus(Bus bus) {

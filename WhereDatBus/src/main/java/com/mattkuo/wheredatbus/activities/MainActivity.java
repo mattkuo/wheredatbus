@@ -15,15 +15,20 @@ import android.widget.SearchView;
 import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.fragments.RouteDirectoryFragment;
 import com.mattkuo.wheredatbus.fragments.SearchBusStopFragment;
+import com.mattkuo.wheredatbus.fragments.TransitDataMapFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements TransitDataMapFragment.MapsLoadedListener {
     private SearchBusStopFragment mSearchFragment;
     private RouteDirectoryFragment mRouteDirectoryFragment;
+    private TransitDataMapFragment mTransiteDataMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mTransiteDataMapFragment = TransitDataMapFragment.newInstance();
+        this.swapFragment(mTransiteDataMapFragment, "NEARBY_MAP");
 
         this.handleIntent(getIntent());
 
@@ -57,6 +62,11 @@ public class MainActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onMapsLoaded() {
+
     }
 
     private void handleIntent(Intent intent) {
