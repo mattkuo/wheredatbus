@@ -6,14 +6,18 @@ import java.io.Serializable;
 public class Stop implements Serializable {
     private int mStopCode;
     private String mStopName;
-    private float mLatitude;
-    private float mLongitude;
+    private double mLatitude;
+    private double mLongitude;
+    private Integer[] mRoutes;
+    private boolean mIsWheelchairAccessable;
 
-    public Stop(int stopCode, String stopName, float latitude, float longitude) {
+    public Stop(int stopCode, String stopName, double latitude, double longitude, boolean isWheelchairAccessable, Integer[] routes) {
         this.mLatitude = latitude;
         this.mStopCode = stopCode;
         this.mStopName = stopName;
         this.mLongitude = longitude;
+        this.mIsWheelchairAccessable = isWheelchairAccessable;
+        this.mRoutes = routes;
     }
 
     public int getStopCode() {
@@ -32,20 +36,36 @@ public class Stop implements Serializable {
         mStopName = stopName;
     }
 
-    public float getLatitude() {
+    public double getLatitude() {
         return mLatitude;
     }
 
-    public void setLatitude(float latitude) {
+    public void setLatitude(double latitude) {
         mLatitude = latitude;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return mLongitude;
     }
 
-    public void setLongitude(float longitude) {
+    public void setLongitude(double longitude) {
         mLongitude = longitude;
+    }
+
+    public Integer[] getRoutes() {
+        return mRoutes;
+    }
+
+    public void setRoutes(Integer[] routes) {
+        this.mRoutes = routes;
+    }
+
+    public boolean isIsWheelchairAccessable() {
+        return mIsWheelchairAccessable;
+    }
+
+    public void setIsWheelchairAccessable(boolean isWheelchairAccessable) {
+        this.mIsWheelchairAccessable = isWheelchairAccessable;
     }
 
     @Override

@@ -15,10 +15,7 @@ import com.mattkuo.wheredatbus.data.TranslinkService;
 import com.mattkuo.wheredatbus.fragments.StopTimesExpListFragment;
 import com.mattkuo.wheredatbus.fragments.TransitDataMapFragment;
 import com.mattkuo.wheredatbus.model.ApiError;
-import com.mattkuo.wheredatbus.model.Stop;
 import com.mattkuo.wheredatbus.model.StopSchedule;
-import com.mattkuo.wheredatbus.model.Stops;
-import com.mattkuo.wheredatbus.protobuff.ProtoStop;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,7 +52,7 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
                 .replace(R.id.map_container, mMapFragment).commit();
 
         // Get stop data
-        TranslinkService.getStopService().timesForRoute(mBusStopCode,
+        TranslinkService.getStopScheduleService().timesForRoute(mBusStopCode,
                 getResources().getString(R.string.translink), new Callback<List<StopSchedule>>() {
                     @Override
                     public void success(List<StopSchedule> stopSchedules, Response response) {

@@ -1,6 +1,7 @@
 package com.mattkuo.wheredatbus.interfaces;
 
 import com.mattkuo.wheredatbus.model.Bus;
+import com.mattkuo.wheredatbus.model.Stop;
 import com.mattkuo.wheredatbus.model.StopSchedule;
 
 import java.util.List;
@@ -27,6 +28,16 @@ public interface Translink {
         @Path("stopCode") int stopCode,
         @Query("apikey") String apiKey,
         Callback<List<StopSchedule>> callback
+    );
+
+    @Headers("accept: application/JSON")
+    @GET("/rttiapi/v1/stops/")
+    void listOfStopsForLatLng(
+        @Query("apikey") String apiKey,
+        @Query("radius") int radius,
+        @Query("lat") float lat,
+        @Query("long") float lng,
+        Callback<List<Stop>> callback
     );
 
 }
