@@ -19,11 +19,22 @@ import com.mattkuo.wheredatbus.data.TranslinkService;
 import com.mattkuo.wheredatbus.fragments.RouteDirectoryFragment;
 import com.mattkuo.wheredatbus.fragments.SearchBusStopFragment;
 import com.mattkuo.wheredatbus.fragments.TransitDataMapFragment;
+import com.mattkuo.wheredatbus.model.Stop;
+import com.mattkuo.wheredatbus.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends Activity implements TransitDataMapFragment.MapsLoadedListener {
     private SearchBusStopFragment mSearchFragment;
     private RouteDirectoryFragment mRouteDirectoryFragment;
     private TransitDataMapFragment mTransitDataMapFragment;
+
+    private Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,32 +80,24 @@ public class MainActivity extends Activity implements TransitDataMapFragment.Map
 
     @Override
     public void onMapsLoaded() {
-//        TranslinkService.getStopService().listOfStopsForLatLng(500, getResources().getString(R.string
-//                .translink), new Callback<List<Bus>>() {
-//            @Override
-//            public void success(List<Bus> buses, Response response) {
-//
-//                ArrayList<Bus> busList = new ArrayList<>();
-//
-//                if (mRouteName != null) {
-//                    busList.addAll(buses);
-//                }
-//
-//                ArrayAdapter busAdapter = new BusListAdapter(mContext, busList);
-//                setListAdapter(busAdapter);
-//                mBusListListener.onBusListLoaded(busList);
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError retrofitError) {
-//                // TODO Error check
-//            }
-//        });
-
     }
 
     @Override
     public void onLocationUpdate(Location location) {
+        boolean isFirstLocationAcquired = false;
+        if (mCurrentLocation == null) {
+            mCurrentLocation = location;
+            isFirstLocationAcquired = true;
+        }
+
+        double movedDistance = Util.distance(mCurrentLocation.getLatitude(),
+                mCurrentLocation.getLongitude(),
+                location.getLatitude(),
+                location.getLongitude());
+
+        if (movedDistance < 250 && !isFirstLocationAcquired) return;
+
+        plotListOfStops(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
     }
 
@@ -128,6 +131,29 @@ public class MainActivity extends Activity implements TransitDataMapFragment.Map
         }
 
         return false;
+    }
+
+    private void plotListOfStops(double lat, double lng) {
+
+
+        //Get Stops within a 800m radius
+        TranslinkService.getStopService().listOfStopsForLatLng(800,
+                Util.roundToNDecimals(lat, 6),
+                Util.roundToNDecimals(lng, 6),
+                getResources().getString(R.string.translink),
+                new Callback<List<Stop>>() {
+            @Override
+            public void success(List<Stop> stops, Response response) {
+                ArrayList<Stop> stopsList = new ArrayList<Stop>();
+                stopsList.addAll(stops);
+                mTransitDataMapFragment.plotStops(stopsList);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                // TODO: Add error checking
+            }
+        });
     }
 
 }

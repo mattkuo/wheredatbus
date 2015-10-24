@@ -8,10 +8,10 @@ public class Stop implements Serializable {
     private String mStopName;
     private double mLatitude;
     private double mLongitude;
-    private Integer[] mRoutes;
+    private String[] mRoutes;
     private boolean mIsWheelchairAccessable;
 
-    public Stop(int stopCode, String stopName, double latitude, double longitude, boolean isWheelchairAccessable, Integer[] routes) {
+    public Stop(int stopCode, String stopName, double latitude, double longitude, boolean isWheelchairAccessable, String[] routes) {
         this.mLatitude = latitude;
         this.mStopCode = stopCode;
         this.mStopName = stopName;
@@ -52,11 +52,11 @@ public class Stop implements Serializable {
         mLongitude = longitude;
     }
 
-    public Integer[] getRoutes() {
+    public String[] getRoutes() {
         return mRoutes;
     }
 
-    public void setRoutes(Integer[] routes) {
+    public void setRoutes(String[] routes) {
         this.mRoutes = routes;
     }
 

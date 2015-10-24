@@ -23,13 +23,9 @@ public class StopDeserializer implements JsonDeserializer<Stop> {
         boolean isWheelChairAccessable = wheelChair == 1;
 
         String[] stringRoutes = jsonObject.get("Routes").getAsString().split(", ");
-        Integer[] intRoutes = new Integer[stringRoutes.length];
 
-        for (int i = 0; i < stringRoutes.length; i++) {
-            intRoutes[i] = Integer.parseInt(stringRoutes[i]);
-        }
 
-        return new Stop(stopCode, name, latitude, longitude, isWheelChairAccessable, intRoutes);
+        return new Stop(stopCode, name, latitude, longitude, isWheelChairAccessable, stringRoutes);
 
     }
 }

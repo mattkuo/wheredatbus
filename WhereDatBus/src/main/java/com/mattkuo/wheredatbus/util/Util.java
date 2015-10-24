@@ -42,4 +42,9 @@ public class Util {
         double distance = radius * circumference;
         return distance * 1000;
     }
+
+    public static double roundToNDecimals(double number, double n) {
+        double exponented = Math.pow(10, n);
+        return Math.round(number * exponented) / exponented;
+    }
 }

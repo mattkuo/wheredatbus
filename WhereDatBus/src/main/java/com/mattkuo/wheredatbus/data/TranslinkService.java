@@ -52,6 +52,11 @@ final public class TranslinkService {
         if (mStopService == null) {
             Gson gson = new GsonBuilder().registerTypeAdapter(Stop.class, new StopDeserializer()).create();
             RestAdapter.Builder builder = new RestAdapter.Builder();
+            builder.setLogLevel(RestAdapter.LogLevel.FULL).setLog(new RestAdapter.Log() {
+                public void log(String msg) {
+                    Log.i("getStopService", msg);
+                }
+            });
             mStopService = builder.setEndpoint(URL).setConverter(new GsonConverter(gson)).build().create(Translink.class);
         }
 

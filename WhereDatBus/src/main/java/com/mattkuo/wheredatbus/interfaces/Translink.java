@@ -31,7 +31,7 @@ public interface Translink {
     );
 
     @Headers("accept: application/JSON")
-    @GET("/rttiapi/v1/stops/")
+    @GET("/rttiapi/v1/stops")
     void listOfStopsForLatLng(
         @Query("radius") int radius,
         @Query("lat") double lat,

@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.mattkuo.wheredatbus.R;
 import com.mattkuo.wheredatbus.model.Bus;
 import com.mattkuo.wheredatbus.model.Routes;
+import com.mattkuo.wheredatbus.model.Stop;
 import com.mattkuo.wheredatbus.model.Stops;
 import com.mattkuo.wheredatbus.protobuff.ProtoCoordinate;
 import com.mattkuo.wheredatbus.protobuff.ProtoPath;
@@ -308,6 +309,18 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
         markerOptions.position(stopLatLng);
         markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_stop_icon));
         mGoogleMap.addMarker(markerOptions);
+    }
+
+    public void plotStops(ArrayList<Stop> stops) {
+        if (mGoogleMap == null) return;
+
+        for (Stop stop : stops) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            LatLng stopPosition = new LatLng(stop.getLatitude(), stop.getLongitude());
+            markerOptions.position(stopPosition);
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_stop_icon));
+            mGoogleMap.addMarker(markerOptions);
+        }
     }
 
     protected void createLocationRequest() {
