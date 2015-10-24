@@ -286,9 +286,8 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
         Routes routes = Routes.getInstance(mContext);
         ProtoShape shape = routes.getShape(mRouteName);
 
-        if (mGoogleMap == null) {
-            return;
-        }
+        if (mGoogleMap == null) return;
+
         mBoundsBuilder = new LatLngBounds.Builder();
         for (ProtoPath protoPath : shape.path) {
             PolylineOptions options = new PolylineOptions();

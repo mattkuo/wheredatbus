@@ -39,7 +39,7 @@ final public class TranslinkService {
             RestAdapter.Builder builder = new RestAdapter.Builder();
             builder.setLogLevel(RestAdapter.LogLevel.FULL).setLog(new RestAdapter.Log() {
                 public void log(String msg) {
-                    Log.i("TranslinkService", msg);
+                    Log.d("TranslinkService", msg);
                 }
             });
             mStopScheduleService = builder.setEndpoint(URL).setConverter(new GsonConverter
@@ -54,7 +54,7 @@ final public class TranslinkService {
             RestAdapter.Builder builder = new RestAdapter.Builder();
             builder.setLogLevel(RestAdapter.LogLevel.FULL).setLog(new RestAdapter.Log() {
                 public void log(String msg) {
-                    Log.i("getStopService", msg);
+                    Log.d("getStopService", msg);
                 }
             });
             mStopService = builder.setEndpoint(URL).setConverter(new GsonConverter(gson)).build().create(Translink.class);
