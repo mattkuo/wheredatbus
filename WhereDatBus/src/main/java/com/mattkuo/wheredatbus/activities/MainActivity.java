@@ -97,7 +97,8 @@ public class MainActivity extends Activity implements TransitDataMapFragment.Map
 
         if (movedDistance < 250 && !isFirstLocationAcquired) return;
 
-        plotListOfStops(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+        plotListOfStops(location.getLatitude(), location.getLongitude());
+        mCurrentLocation = location;
 
     }
 

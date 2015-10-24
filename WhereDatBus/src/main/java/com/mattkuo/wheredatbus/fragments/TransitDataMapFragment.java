@@ -171,9 +171,6 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     public void onLocationChanged(Location location) {
         mCurrentLocation = location;
         mMapsLoadedListener.onLocationUpdate(location);
-        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f);
-        mGoogleMap.moveCamera(update);
     }
 
     @Override
