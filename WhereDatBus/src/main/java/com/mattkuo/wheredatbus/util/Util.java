@@ -47,4 +47,19 @@ public class Util {
         double exponented = Math.pow(10, n);
         return Math.round(number * exponented) / exponented;
     }
+
+    public static String joinString(String[] strArray, String delimiter) {
+        if (strArray.length < 1) return "";
+        else if (strArray.length == 1) return strArray[0];
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(strArray[0]);
+
+        for (int i = 1; i < strArray.length; i++) {
+            sb.append(delimiter);
+            sb.append(strArray[i]);
+        }
+
+        return sb.toString();
+    }
 }

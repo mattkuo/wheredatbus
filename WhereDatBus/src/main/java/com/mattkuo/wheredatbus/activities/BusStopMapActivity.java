@@ -99,7 +99,7 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
 
     @Override
     public void onMapsLoaded() {
-        mMapFragment.plotStop();
+        mMapFragment.plotProtoStop();
     }
 
     @Override

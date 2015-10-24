@@ -2,6 +2,7 @@ package com.mattkuo.wheredatbus.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mattkuo.wheredatbus.R;
+import com.mattkuo.wheredatbus.activities.BusStopMapActivity;
 import com.mattkuo.wheredatbus.model.Bus;
 import com.mattkuo.wheredatbus.model.Routes;
 import com.mattkuo.wheredatbus.model.Stop;
@@ -61,6 +63,8 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     private LatLngBounds.Builder mBoundsBuilder;
     private LatLngBounds mLatLngBounds;
     private HashMap<Bus, Marker> mBusMarkerHashMap;
+
+    private HashMap<Marker, Stop> mStopMarkerHashMap;
 
     // For Bus stop map. Set to -1 if no bus stop code is passed in
     private int mBusStopCode;
@@ -156,6 +160,16 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
             }
         });
 
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Stop selectedStop = mStopMarkerHashMap.get(marker);
+                Intent intent = new Intent(mContext, BusStopMapActivity.class);
+                intent.putExtra(BusStopMapActivity.EXTRA_BUSSTOP, selectedStop.getStopCode());
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
@@ -234,9 +248,8 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
             return;
         }
 
-        if (mBusMarkerHashMap == null) {
-            mBusMarkerHashMap = new HashMap<>();
-        }
+        if (mBusMarkerHashMap == null) mBusMarkerHashMap = new HashMap<>();
+
         for (Bus bus : listOfBuses) {
 
             int directionMarker;
@@ -289,7 +302,7 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
         mLatLngBounds = mBoundsBuilder.build();
     }
 
-    public void plotStop() {
+    public void plotProtoStop() {
         ProtoStop stop = Stops.getInstance(getActivity()).getStop(mBusStopCode);
 
         LatLng stopLatLng = new LatLng(stop.coordinate.latitude, stop.coordinate.longitude);
@@ -311,12 +324,12 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     public void plotStops(ArrayList<Stop> stops) {
         if (mGoogleMap == null) return;
 
+        if (mStopMarkerHashMap == null) mStopMarkerHashMap = new HashMap<>();
+
         for (Stop stop : stops) {
-            MarkerOptions markerOptions = new MarkerOptions();
-            LatLng stopPosition = new LatLng(stop.getLatitude(), stop.getLongitude());
-            markerOptions.position(stopPosition);
-            markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_stop_icon));
-            mGoogleMap.addMarker(markerOptions);
+            MarkerOptions markerOptions = makeStopMarker(stop);
+            Marker marker = mGoogleMap.addMarker(markerOptions);
+            mStopMarkerHashMap.put(marker, stop);
         }
     }
 
@@ -346,6 +359,16 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
             mCurrentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
         }
 
+    }
+
+    private MarkerOptions makeStopMarker(Stop stop) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        LatLng stopPosition = new LatLng(stop.getLatitude(), stop.getLongitude());
+        markerOptions.position(stopPosition)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_stop_icon))
+                .title(stop.getStopCode() + " - " + stop.getStopName())
+                .snippet("Routes: " + Util.joinString(stop.getRoutes(), ", "));
+        return markerOptions;
     }
 
     public interface MapsLoadedListener {
