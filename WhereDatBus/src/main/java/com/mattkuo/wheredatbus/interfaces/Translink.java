@@ -33,10 +33,10 @@ public interface Translink {
     @Headers("accept: application/JSON")
     @GET("/rttiapi/v1/stops/")
     void listOfStopsForLatLng(
-        @Query("apikey") String apiKey,
         @Query("radius") int radius,
-        @Query("lat") float lat,
-        @Query("long") float lng,
+        @Query("lat") double lat,
+        @Query("long") double lng,
+        @Query("apikey") String apiKey,
         Callback<List<Stop>> callback
     );
 

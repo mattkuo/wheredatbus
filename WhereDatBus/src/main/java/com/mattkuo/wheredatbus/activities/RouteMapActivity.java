@@ -3,6 +3,7 @@ package com.mattkuo.wheredatbus.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.location.Location;
 import android.os.Bundle;
 
 import com.mattkuo.wheredatbus.R;
@@ -54,5 +55,6 @@ public class RouteMapActivity extends Activity implements BusListFragment.BusLis
         mMapFragment.plotRoute();
     }
 
-
+    @Override
+    public void onLocationUpdate(Location location) {}
 }

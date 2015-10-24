@@ -7,7 +7,9 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -21,15 +23,15 @@ import com.mattkuo.wheredatbus.fragments.TransitDataMapFragment;
 public class MainActivity extends Activity implements TransitDataMapFragment.MapsLoadedListener {
     private SearchBusStopFragment mSearchFragment;
     private RouteDirectoryFragment mRouteDirectoryFragment;
-    private TransitDataMapFragment mTransiteDataMapFragment;
+    private TransitDataMapFragment mTransitDataMapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTransiteDataMapFragment = TransitDataMapFragment.newInstance();
-        this.swapFragment(mTransiteDataMapFragment, "NEARBY_MAP");
+        mTransitDataMapFragment = TransitDataMapFragment.newInstance();
+        this.swapFragment(mTransitDataMapFragment, "NEARBY_MAP");
 
         this.handleIntent(getIntent());
 
@@ -67,6 +69,32 @@ public class MainActivity extends Activity implements TransitDataMapFragment.Map
 
     @Override
     public void onMapsLoaded() {
+//        TranslinkService.getStopService().listOfStopsForLatLng(500, getResources().getString(R.string
+//                .translink), new Callback<List<Bus>>() {
+//            @Override
+//            public void success(List<Bus> buses, Response response) {
+//
+//                ArrayList<Bus> busList = new ArrayList<>();
+//
+//                if (mRouteName != null) {
+//                    busList.addAll(buses);
+//                }
+//
+//                ArrayAdapter busAdapter = new BusListAdapter(mContext, busList);
+//                setListAdapter(busAdapter);
+//                mBusListListener.onBusListLoaded(busList);
+//            }
+//
+//            @Override
+//            public void failure(RetrofitError retrofitError) {
+//                // TODO Error check
+//            }
+//        });
+
+    }
+
+    @Override
+    public void onLocationUpdate(Location location) {
 
     }
 

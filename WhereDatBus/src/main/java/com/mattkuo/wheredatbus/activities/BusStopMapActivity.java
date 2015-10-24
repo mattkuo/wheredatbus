@@ -2,6 +2,7 @@ package com.mattkuo.wheredatbus.activities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -100,4 +101,7 @@ public class BusStopMapActivity extends Activity implements TransitDataMapFragme
     public void onMapsLoaded() {
         mMapFragment.plotStop();
     }
+
+    @Override
+    public void onLocationUpdate(Location location) {}
 }

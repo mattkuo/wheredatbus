@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,6 +33,7 @@ import com.mattkuo.wheredatbus.protobuff.ProtoCoordinate;
 import com.mattkuo.wheredatbus.protobuff.ProtoPath;
 import com.mattkuo.wheredatbus.protobuff.ProtoShape;
 import com.mattkuo.wheredatbus.protobuff.ProtoStop;
+import com.mattkuo.wheredatbus.util.Util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,10 +43,17 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
     public static final String EXTRA_SHORT_ROUTE_NAME = "com.mattkuo.wheredatbus" +
             ".EXTRA_SHORT_ROUTE_NAME";
     public static final String EXTRA_BUSSTOP_CODE = "com.mattkuo.wheredatbus.EXTRA_BUSSTOP_CODE";
+
+    protected final static String REQUESTING_LOCATION_UPDATES_KEY = "requesting-location-updates-key";
+    protected final static String LOCATION_KEY = "location-key";
+
     private boolean mFirstTimeLoad = true;
     private GoogleMap mGoogleMap;
     private Context mContext;
     private GoogleApiClient mGoogleApiClient;
+    private boolean mRequestingLocationUpdates = true;
+    private Location mCurrentLocation;
+    private LocationRequest mLocationRequest;
 
     // For routes map
     private String mRouteName;
@@ -102,6 +111,8 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
         mBusStopCode = getArguments().getInt(EXTRA_BUSSTOP_CODE, -1);
         mContext = getActivity();
         buildGoogleApiClient();
+        updateValuesFromBundle(savedInstanceState);
+        createLocationRequest();
     }
 
     @Override
@@ -157,6 +168,8 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
 
     @Override
     public void onLocationChanged(Location location) {
+        mCurrentLocation = location;
+        mMapsLoadedListener.onLocationUpdate(location);
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f);
         mGoogleMap.moveCamera(update);
@@ -164,10 +177,15 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
 
     @Override
     public void onConnected(Bundle bundle) {
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mCurrentLocation == null) {
+            Util.displayPromptForEnablingGPS(getActivity());
+            return;
+        }
+        LatLng userLocation = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
         CameraUpdate update = CameraUpdateFactory.newLatLngZoom(userLocation, 15.0f);
         mGoogleMap.moveCamera(update);
+        startLocationUpdates();
     }
 
     @Override
@@ -175,6 +193,27 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {}
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY, mRequestingLocationUpdates);
+        outState.putParcelable(LOCATION_KEY, mCurrentLocation);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopLocationUpdates();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mGoogleApiClient.isConnected() && mRequestingLocationUpdates) {
+            startLocationUpdates();
+        }
+    }
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
@@ -271,8 +310,36 @@ public class TransitDataMapFragment extends MapFragment implements LocationListe
         mGoogleMap.addMarker(markerOptions);
     }
 
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(15000);
+        mLocationRequest.setFastestInterval(10000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    protected void startLocationUpdates() {
+        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    }
+
+    protected void stopLocationUpdates() {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    }
+
+    private void updateValuesFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) return;
+
+        if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
+            mRequestingLocationUpdates = savedInstanceState.getBoolean(REQUESTING_LOCATION_UPDATES_KEY);
+        }
+
+        if (savedInstanceState.keySet().contains(LOCATION_KEY)) {
+            mCurrentLocation = savedInstanceState.getParcelable(LOCATION_KEY);
+        }
+
+    }
 
     public interface MapsLoadedListener {
         void onMapsLoaded();
+        void onLocationUpdate(Location location);
     }
 }
